@@ -19,9 +19,8 @@ class RadialChart extends React.Component {
       data,
       h,
       w,
-      margin
+      margin,
     } = this.props;
-
 
     const filteredData = data.filter(d => d.region === 'United States');
 
@@ -34,24 +33,13 @@ class RadialChart extends React.Component {
     data.forEach(d => {
       d.key = Number(d.key);
     });
-    const outerRadius = h / 3;
-    const scale = {
-      x: scaleTime()
-        .domain([0, 23])
-        .range([0, 2 * 3.1415]),
-  
-      y: scaleLinear()
-        .domain([0, max(sumData, d => d.value)])
-        .range([1, outerRadius])
-    };
-
-    
 
     this.state = {
       height: h,
       width: w,
-      sumData,
-      scale
+      timezone: 0,
+      region: 'utc',
+      sumData
     };
   }
 
@@ -59,11 +47,13 @@ class RadialChart extends React.Component {
     height: null,
     width: null,
     sumData: null,
-    scale: null
+    region: null,
+    timezone: null
   }
 
   componentDidMount() {
     const {
+      timezone
     } = this.state;
     this.updateChart(this.props);
   }
@@ -74,25 +64,39 @@ class RadialChart extends React.Component {
 
   updateChart(props) {
     const {
-      data,
       margin
     } = props;
     const {
       height,
       width,
       sumData,
-      scale
+      timezone
 
     } = this.state;
-    if (!data.length) {
+    if (!sumData.length) {
       return;
     }
 
-
+    const outerRadius = height / 3;
+    const scale = {
+      x: scaleTime()
+        .domain([0 + timezone, 23 + timezone])
+        .range([0, 2 * 3.1415]),
+  
+      y: scaleLinear()
+        .domain([0, max(sumData, d => d.value)])
+        .range([1, outerRadius])
+    };
 
     const graph = select(ReactDOM.findDOMNode(this.refs.plotContainer))
       .append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
-    
+    graph.append('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('height', height)
+      .attr('width', width)
+      .attr('fill', 'white');
+
     const g = graph.append('g')
       .attr('transform', `translate(${width / 2}, ${height / 2})`);
     const yAxis = g.append('g')
@@ -110,7 +114,7 @@ class RadialChart extends React.Component {
     const line = lineRadial()
         .angle(d => scale.x(d.key))
         .radius(d => scale.y(d.value));
-    console.log(scale);
+
     g.append('path')
         .datum(sumData)
         .attr('fill', 'none')
@@ -125,9 +129,9 @@ class RadialChart extends React.Component {
       .text(d => (d / 1000));
 
     // Russia ring
-    this.ringScale(yAxis, 3 * height / 4, 3);
+    this.ringScale(yAxis, 3 * height / 4, timezone);
     // US ring
-    this.ringScale(yAxis, 5 * height / 6, 19);
+    // this.ringScale(yAxis, 5 * height / 6, 19);
 
   }
   ringScale(g, innerRadius, timeShift) {
@@ -141,13 +145,9 @@ class RadialChart extends React.Component {
       return data;
     });
   
-    const color = scaleOrdinal()
-                    .domain(utcTimeArray)
-                    .range(Array(24).fill().map((d, i) => (i < 6 || i > 21) ? 'DarkGray' : 'LightGray'));
+    const color = scaleOrdinal().domain(utcTimeArray).range(Array(24).fill().map((d, i) => (i < 6 || i > 21) ? 'DarkGray' : 'LightGray'));
   
-    const ring = pie()
-      .sort(null)
-      .value(d => d.value);
+    const ring = pie().sort(null).value(d => d.value);
   
     const dataReady = ring(entries(data));
   
@@ -170,18 +170,35 @@ class RadialChart extends React.Component {
       w
     } = this.props;
     const {
+      region
       // interactivity things
     } = this.state;
     return (
       <div className="container relative">
+        <h1>{region}</h1>
         <svg width={w} height={h}>
           
           <g className="plot-container"
             ref="plotContainer"
 
           />
+        <p>select region:</p>
         </svg>
-        
+        {[
+            {region: "unted states", val: 3},
+            {region: "russia", val: 19},
+            {region: "utc", val: 0}
+        ].map(t => {
+          return (<button
+          key={t.region}
+          onClick={() => {
+            this.setState({region: t.region, timezone: t.val}, _ => console.log(this.state.timezone));
+            this.updateChart(this.props, this.state);
+          }
+        }
+            
+          >{t.region}</button>);
+          })}
       </div>
     );
   }
