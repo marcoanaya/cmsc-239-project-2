@@ -114,8 +114,8 @@ class RootComponent extends React.Component {
         </p>
         <HeatMap
           data={data}
-          h={800}
-          w={800}
+          h={600}
+          w={600}
           margin={{top: 0, right: 0, bottom: 0, left: 0}}
           />
         <div>{b3}</div>
