@@ -22,16 +22,18 @@ class RootComponent extends React.Component {
       data: null,
       loading: true
     };
+
   }
 
   componentWillMount() {
-    const files = Array(3).fill().map((e, i) => {
+    const files = Array(4).fill().map((e, i) => {
       return csv(`https://raw.githubusercontent.com/fivethirtyeight/russian-troll-tweets/master/IRAhandle_tweets_${parseInt(i + 1, 10)}.csv`, d => {
         return {
           publishTime: (new Date(`${d.publish_date} +0000`).getHours()),
           publishDate: (new Date(`${d.publish_date} +0000`).setHours(0, 0, 0, 0)),
           region: d.region,
-          accountCategory: d.account_category
+          accountCategory: d.account_category,
+          content: d.content
         };
       });
     });
@@ -57,26 +59,37 @@ class RootComponent extends React.Component {
     }
     return (
       <div className="relative">
-        <h1> Hello Explainable!</h1>
+        <h1 className="title"> Hello Explainable!</h1>
         <div>{`The example data was loaded! There are ${data.length} rows`}</div>
-        <MoodyTrolls
-          data={data}
-          h={200}
-          w={400}
-          margin={{top: 20, right: 20, bottom: 20, left: 20}} />
+        <div>
+          <h2 className="subtitle">Insert Subtitle</h2>
+          <MoodyTrolls
+            data={data}
+            h={350}
+            w={1000}
+            margin={{top: 20, right: 20, bottom: 20, left: 20}} />
+        
+        </div>
+
         <div>{longBlock}</div>
-        <RadialChart
-          data={data}
-          h={400}
-          w={400}
-          margin={{top: 20, right: 20, bottom: 20, left: 20}}
-        />
-        <HeatMap
-          data={data}
-          h={400}
-          w={400}
-          margin={{top: 20, right: 20, bottom: 20, left: 20}}
+        <div>
+          <h2 className="subtitle">Insert Subtitle2 </h2>
+          <RadialChart
+            data={data}
+            h={400}
+            w={400}
+            margin={{top: 20, right: 20, bottom: 20, left: 20}}
           />
+        </div>
+        <div>
+          <h2 className="subtitle">Insert Subtitle3</h2>
+          <HeatMap
+            data={data}
+            h={400}
+            w={400}
+            margin={{top: 20, right: 20, bottom: 20, left: 20}}
+          />
+        </div>
         <div>{longBlock}</div>
         <SmallBarCharts
           data={data}
