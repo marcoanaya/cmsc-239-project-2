@@ -39,7 +39,8 @@
     "d3-tip": "^0.9.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-vis": "^1.11.7"
+    "react-vis": "^1.11.7",
+    "react-wordcloud": "^1.0.8"
   },
   "scripts": {
     "start": "webpack-dev-server --progress --hot --port 3001 --open",
