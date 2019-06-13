@@ -119,3 +119,8 @@ button {
   padding: 6px;
   text-transform: uppercase;
 }
+
+.buttonsb {
+  width: 20%;
+  height: 100%;
+}

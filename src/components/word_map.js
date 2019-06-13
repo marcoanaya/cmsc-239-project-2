@@ -13,14 +13,32 @@ class WordCloud extends React.Component {
       margin,
     } = this.props;
 
-	const count = {};
-
-	function words(str) { 
+		function words(str) { 
     	return str.split(" ").reduce(function(_, word) {
-    		count[word] = count.hasOwnProperty(word) ? count[word] + 1 : 1;
 			return _;
-    		});
+			});
 		}
+			//l;fdjfdlk
+
+	const tweets = data.map(d => words(d.content));
+
+//	console.log(tweets);
+	
+	var count = {};
+	var length = tweets.length;
+	for(var i = 0; i < length; i++) {
+		count[tweets[i]] = (count[tweets[i]] || 0) + 1;
+	}
+
+	let dataw = Object.keys(count).reduce((acc, key) => {
+		if (count[key] > 3000) {
+			acc[key] = count[key];
+		}
+		return acc;
+	}, {});
+
+	console.log(dataw);
+
 
 //	const tweets = data.map(d => words(d.content));
 
