@@ -35,7 +35,7 @@ class RadialChart extends React.Component {
       height: h,
       width: w,
       timezone: 0,
-      region: 'utc',
+      region: 'Standart Time',
       sumData
     };
   }
@@ -140,7 +140,7 @@ class RadialChart extends React.Component {
     timeArray.map((d) => {
       data[d] = 1;
       return data;
-      
+
     });
   
     const color = scaleOrdinal().domain(utcTimeArray).range(Array(24).fill().map((d, i) => (i < 6 || i > 19) ? '#262626' : '#c4c4c4'));
@@ -168,23 +168,23 @@ class RadialChart extends React.Component {
       w
     } = this.props;
     const {
-      region
+
       // interactivity things
     } = this.state;
     return (
       <div className="container relative" align="right" >
-        <h1>{region}</h1>
+
         <svg width={w} height={h}>
           
           <g className="plot-container"
             ref="plotContainer"
 
           />
-        <p>select region:</p>
+
         </svg>
         {[
-            {region: 'United States', val: 19},
-            {region: 'Russia', val: 3},
+            {region: 'United States', val: 3},
+            {region: 'Russia', val: 19},
             {region: 'Standart Time', val: 0}
         ].map(t => {
           return (<button
