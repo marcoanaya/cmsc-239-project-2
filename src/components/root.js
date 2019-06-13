@@ -4,6 +4,7 @@ import MoodyTrolls from './moody_trolls';
 import RadialChart from './radial_chart';
 import HeatMap from './map';
 import {merge} from 'd3-array';
+import SmallBarCharts from './smallbarcharts';
 
 const longBlock = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -76,8 +77,13 @@ class RootComponent extends React.Component {
           w={400}
           margin={{top: 20, right: 20, bottom: 20, left: 20}}
           />
-      
         <div>{longBlock}</div>
+        <SmallBarCharts
+          data={data}
+          h={200}
+          w={400}
+          margin={{top: 20, right: 20, bottom: 20, left: 20}}
+          />
       </div>
     );
   }
