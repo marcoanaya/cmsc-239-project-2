@@ -7,8 +7,7 @@ import {schemeYlOrRd} from 'd3-scale-chromatic';
 import {scaleThreshold} from 'd3-scale';
 import {legendColor} from 'd3-svg-legend';
 import 'd3-transition';
-import {select} from 'd3-selection';
-
+import {select, event} from 'd3-selection';
 
 class HeatMap extends React.Component {
   constructor(props) {
@@ -66,8 +65,6 @@ class HeatMap extends React.Component {
       return name;
     }
 
-
-    
     const postsByRegion = nest()
     .key(d => d.region)
     .rollup(leaves => {
@@ -86,6 +83,8 @@ class HeatMap extends React.Component {
     this.state = {
       height: h,
       width: w,
+      currCountry: "USA",
+      currTotal: "0",
       postsByRegionAbb
     };
   }
@@ -93,11 +92,15 @@ class HeatMap extends React.Component {
   state = {
     height: null,
     width: null,
+    currCountry: null,
+    currTotal: null,
     postsByRegionAbb: null
   }
 
   componentDidMount() {
     const {
+      currCountry,
+      currTotal
     } = this.state;
     this.updateChart(this.props);
   }
@@ -114,6 +117,8 @@ class HeatMap extends React.Component {
     const {
       height,
       width,
+      currCountry,
+      currTotal,
       postsByRegionAbb
 
     } = this.state;
@@ -158,7 +163,7 @@ class HeatMap extends React.Component {
     graph.select('.legend')
       .style('font-size', '12')
       .call(legend);
-
+    
     json('http://enjalot.github.io/wwsd/data/world/world-110m.geojson').then(jsonfile => {
       jsonfile.features = jsonfile.features.filter(d => d.id !== 'ATA');
       graph.selectAll('path')
@@ -171,7 +176,11 @@ class HeatMap extends React.Component {
           })
           .attr('d', path)
           .style('stroke', 'LightGray')
-          .style('stroke-width', '.5');
+          .style('stroke-width', '.5')
+          .on("mouseover", d => {  
+            console.log(d.total);
+            this.setState({currCountry: d.id, currTotal: d.total});
+          });
     });
   }
 
@@ -182,9 +191,12 @@ class HeatMap extends React.Component {
     } = this.props;
     const {
       // interactivity things
+      currCountry,
+      currTotal
     } = this.state;
     return (
       <div className="container relative">
+        <h1>{currCountry + " " + currTotal}</h1>
         <svg width={w} height={h}>
           
           <g className="plot-container"
