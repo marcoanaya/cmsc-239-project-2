@@ -30,7 +30,7 @@ class SmallBarCharts extends React.Component {
       left: hsl(240, 1, 0.30)
     };
     const filteredDataRS = data.slice(0).filter(row => {
-      return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Russia');
+      return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Russian Federation');
     });
     const filteredDataAZ = data.slice(0).filter(row => {
       return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Azerbaijan');
@@ -95,7 +95,7 @@ class SmallBarCharts extends React.Component {
           .range([0, width]),
 
       y: scaleLinear()
-          .domain([0, 1000])
+          .domain([0, 2000])
           .range([height, 0])
           .nice(),
 

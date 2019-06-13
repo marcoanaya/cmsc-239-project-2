@@ -25,7 +25,7 @@ class RootComponent extends React.Component {
   }
 
   componentWillMount() {
-    const files = Array(3).fill().map((e, i) => {
+    const files = Array(13).fill().map((e, i) => {
       return csv(`https://raw.githubusercontent.com/fivethirtyeight/russian-troll-tweets/master/IRAhandle_tweets_${parseInt(i + 1, 10)}.csv`, d => {
         return {
           publishTime: (new Date(`${d.publish_date} +0000`).getHours()),
@@ -59,10 +59,11 @@ class RootComponent extends React.Component {
       <div className="relative">
         <h1> 2,925,313 Russian Troll Tweets</h1>
         <div>{`By Marco Anaya, Matthew Fensterstock, and Cade Guerra`}</div>
+        <div>{longBlock}</div>
         <MoodyTrolls
           data={data}
-          h={200}
-          w={400}
+          h={300}
+          w={600}
           margin={{top: 20, right: 20, bottom: 20, left: 20}} />
         <div>{longBlock}</div>
         <RadialChart
@@ -71,19 +72,21 @@ class RootComponent extends React.Component {
           w={400}
           margin={{top: 20, right: 20, bottom: 20, left: 20}}
         />
+        <div>{longBlock}</div>
         <HeatMap
           data={data}
           h={800}
           w={800}
-          margin={{top: 20, right: 20, bottom: 20, left: 20}}
+          margin={{top: 0, right: 0, bottom: 0, left: 0}}
           />
         <div>{longBlock}</div>
         <SmallBarCharts
           data={data}
-          h={200}
-          w={400}
+          h={300}
+          w={600}
           margin={{top: 20, right: 20, bottom: 20, left: 20}}
           />
+        <div>{longBlock}</div>
         <a href="https://github.com/fivethirtyeight/russian-troll-tweets">Source</a>
       </div>
     );
