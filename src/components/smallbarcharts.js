@@ -30,24 +30,19 @@ class SmallBarCharts extends React.Component {
       left: hsl(240, 1, 0.30)
     };
     const filteredDataRS = data.slice(0).filter(row => {
-      return ['LeftTroll', 'RightTroll'].includes(row.accountCategory) &&
-             (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Russia');
+      return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Russia');
     });
     const filteredDataAZ = data.slice(0).filter(row => {
-      return ['LeftTroll', 'RightTroll'].includes(row.accountCategory) &&
-               (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Azerbaijan');
+      return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Azerbaijan');
     });
     const filteredDataGE = data.slice(0).filter(row => {
-        return ['LeftTroll', 'RightTroll'].includes(row.accountCategory) &&
-                 (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Germany');
+        return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Germany');
     });
     const filteredDataIT = data.slice(0).filter(row => {
-        return ['LeftTroll', 'RightTroll'].includes(row.accountCategory) &&
-                 (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Italy');
+        return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'Italy');
     });
     const filteredDataUK = data.slice(0).filter(row => {
-        return ['LeftTroll', 'RightTroll'].includes(row.accountCategory) &&
-                 (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'United Kingdom');
+        return (row.publishDate >= startDate && row.publishDate <= endDate && row.region === 'United Kingdom');
     });
 
     const sumDataRS = nest()
@@ -100,7 +95,7 @@ class SmallBarCharts extends React.Component {
           .range([0, width]),
 
       y: scaleLinear()
-          .domain([0, 100])
+          .domain([0, 1000])
           .range([height, 0])
           .nice(),
 
