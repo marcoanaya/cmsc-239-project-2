@@ -35,7 +35,7 @@ class RootComponent extends React.Component {
         };
       });
     });
-  
+
     Promise.all(files)
     .then(data => {
       data = merge(data);
@@ -57,8 +57,8 @@ class RootComponent extends React.Component {
     }
     return (
       <div className="relative">
-        <h1> Hello Explainable!</h1>
-        <div>{`The example data was loaded! There are ${data.length} rows`}</div>
+        <h1> "2,925,313 Russian Troll Tweets"</h1>
+        <div>{`By Marco Anaya, Matthew Fensterstock, and Cade Guerra`}</div>
         <MoodyTrolls
           data={data}
           h={200}
@@ -84,6 +84,7 @@ class RootComponent extends React.Component {
           w={400}
           margin={{top: 20, right: 20, bottom: 20, left: 20}}
           />
+        <a href="https://github.com/fivethirtyeight/russian-troll-tweets">Source</a>
       </div>
     );
   }
