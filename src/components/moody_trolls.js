@@ -5,8 +5,6 @@ import {sum} from 'd3-array';
 import {hsl} from 'd3-color';
 import {timeMonth, timeYear} from 'd3-time';
 import {timeFormat} from 'd3-time-format';
-import {line} from 'd3-shape';
-import {format} from 'd3-format';
 import {scaleLinear, scaleTime} from 'd3-scale';
 import {axisLeft, axisBottom, axisRight} from 'd3-axis';
 import {select} from 'd3-selection';
@@ -14,7 +12,6 @@ import {select} from 'd3-selection';
 class MoodyTrolls extends React.Component {
   constructor(props) {
     super(props);
-
     const {
       data,
       h,
@@ -34,7 +31,6 @@ class MoodyTrolls extends React.Component {
       return ['LeftTroll', 'RightTroll'].includes(row.accountCategory) &&
              (row.publishDate >= startDate && row.publishDate <= endDate);
     });
-    console.log(filteredData);
     const sumData = nest()
     .key(d => d.publishDate)
     .rollup(leaves => {
@@ -83,7 +79,6 @@ class MoodyTrolls extends React.Component {
           'All Right Trolls'
         ][i];
       })
-      
     };
 
     this.state = {
@@ -94,7 +89,10 @@ class MoodyTrolls extends React.Component {
       sumData,
       axis,
       scale,
-      color
+      color,
+      x: -1,
+      y: -1,
+      date: 1508043600000
     };
   }
 
@@ -106,7 +104,10 @@ class MoodyTrolls extends React.Component {
     sumData: null,
     axis: null,
     scale: null,
-    color: null
+    color: null,
+    x: null,
+    y: null,
+    date: null
   }
 
   componentDidMount() {
@@ -240,6 +241,7 @@ class MoodyTrolls extends React.Component {
       .data(sumData).enter()
       .append('rect')
           .attr('class', 'bar')
+          .attr('id', d => d.key)
           .attr('x', d => scale.x(d.key))
           .attr('y', d => scale.y(d.value.totalPosts))
           .attr('width', width / 1095)
@@ -247,25 +249,82 @@ class MoodyTrolls extends React.Component {
           .style('fill', d => scale.color(d.value.leftPosts / d.value.totalPosts));
   }
 
+
+  dateString(date) {
+    if (date === -1) {
+      return "template";
+    }
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const d = new Date(Number(date));
+
+    const month = months[d.getMonth()];
+    const day = d.getDate();
+    const year = d.getFullYear();
+    return month + ' ' + day + ', ' + year;
+
+  }
+  dayToAnotation(date) {
+    if (date === -1) {
+      return "template text";
+    }
+    if (date >= 1433221200000 && date <= 1433998800000) {
+      return "event one";
+    } else if (Number(date) === 1437541200000 || Number(date) === 1437454800000) {
+      return "event two";
+    } else if (date >= 1474002000000 && date <= 1474261200000) {
+      return 'event 3';
+    } else if (date == 1475730000000) {
+      return 'event 4';
+    } else if (date <= 1493874000000 && date >= 1475989200000) {
+      return 'event 5';
+    } else if (date >= 1501390800000 && date <= 1502946000000) {
+      return 'event 6';
+    }
+
+  }
+
+
   render() {
     const {
       h,
       w
+
     } = this.props;
     const {
+      x,
+      y,
+      date
       // interactivity things
     } = this.state;
     return (
-      <div className="container relative">
+      <div className="container relative"
+     >
         <svg width={w} height={h}>
           
           <g className="plot-container"
             ref="plotContainer"
 
+            onMouseOver={event => {
+              this.setState(
+                {
+                  x: event.pageX,
+                  y: event.pageY,
+                  date: event.target.getAttribute('id')
+                }, console.log(this.state.date));
+              
+            }}
+            onMouseLeave={
+              this.setState({date: -1})
+            }
           />
         </svg>
-        
+        <div>
+          <h1>{this.dateString(date)}</h1>
+          {
+            this.dayToAnotation(date)}
+        </div>
       </div>
+      
     );
   }
 }
