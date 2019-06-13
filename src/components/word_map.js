@@ -113,20 +113,3 @@ WordCloud.displayName = 'WordCloud';
 
 export default WordCloud;
 
-
-
-	console.log(dataw);
-
-
-//	const tweets = data.map(d => words(d.content));
-
-//	console.log(tweets);
-	console.log(count);
-
-	}
-}
-
-WordCloud.displayName = 'WordCloud';
-
-export default WordCloud;
-
