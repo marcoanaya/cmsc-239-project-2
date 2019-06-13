@@ -265,24 +265,21 @@ class MoodyTrolls extends React.Component {
   }
   dayToAnotation(date) {
     if (date === -1) {
-      return "template text";
+      return "";
     }
-    if (date >= 1433221200000 && date <= 1433998800000) {
-      return "event one";
-    } else if (Number(date) === 1437541200000 || Number(date) === 1437454800000) {
-      return "event two";
+    if (Number(date) === 1437541200000 || Number(date) === 1437454800000) {
+      return "Chattanooga Shootings";
     } else if (date >= 1474002000000 && date <= 1474261200000) {
-      return 'event 3';
+      return "Lead up to Wikileaks and Hollywood Access tapes";
     } else if (date == 1475730000000) {
-      return 'event 4';
+      return 'Election Day';
     } else if (date <= 1493874000000 && date >= 1475989200000) {
-      return 'event 5';
+      return 'General sowing of discontent after Trump wins';
     } else if (date >= 1501390800000 && date <= 1502946000000) {
-      return 'event 6';
+      return 'Unite the Right rally in Charleston';
     }
 
   }
-
 
   render() {
     const {
@@ -313,9 +310,6 @@ class MoodyTrolls extends React.Component {
                 }, console.log(this.state.date));
               
             }}
-            onMouseLeave={
-              this.setState({date: -1})
-            }
           />
         </svg>
         <div>
