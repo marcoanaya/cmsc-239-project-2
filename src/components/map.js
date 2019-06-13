@@ -196,7 +196,7 @@ class HeatMap extends React.Component {
     } = this.state;
     return (
       <div className="container relative">
-        <h1>{currCountry + " " + currTotal}</h1>
+        <h1>{"Country: " + currCountry + ". Total Tweets: " + currTotal + "."}</h1>
         <svg width={w} height={h}>
           
           <g className="plot-container"

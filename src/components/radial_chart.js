@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {nest, entries} from 'd3-collection';
 import {max} from 'd3-array';
-import {hsl} from 'd3-color';
-import {timeMonth, timeYear} from 'd3-time';
-import {timeFormat} from 'd3-time-format';
 import {lineRadial, pie, arc} from 'd3-shape';
 import {format} from 'd3-format';
 import {scaleLinear, scaleTime, scaleOrdinal} from 'd3-scale';
@@ -129,7 +126,7 @@ class RadialChart extends React.Component {
       .text(d => (d / 1000));
 
     // Russia ring
-    this.ringScale(yAxis, 3 * height / 4, timezone);
+    this.ringScale(yAxis, 3 * height / 4, 0);
     // US ring
     // this.ringScale(yAxis, 5 * height / 6, 19);
 
@@ -143,9 +140,10 @@ class RadialChart extends React.Component {
     timeArray.map((d) => {
       data[d] = 1;
       return data;
+      
     });
   
-    const color = scaleOrdinal().domain(utcTimeArray).range(Array(24).fill().map((d, i) => (i < 6 || i > 21) ? 'DarkGray' : 'LightGray'));
+    const color = scaleOrdinal().domain(utcTimeArray).range(Array(24).fill().map((d, i) => (i < 6 || i > 19) ? '#262626' : '#c4c4c4'));
   
     const ring = pie().sort(null).value(d => d.value);
   
@@ -174,7 +172,7 @@ class RadialChart extends React.Component {
       // interactivity things
     } = this.state;
     return (
-      <div className="container relative">
+      <div className="container relative" align="right" >
         <h1>{region}</h1>
         <svg width={w} height={h}>
           
@@ -185,15 +183,17 @@ class RadialChart extends React.Component {
         <p>select region:</p>
         </svg>
         {[
-            {region: "unted states", val: 3},
-            {region: "russia", val: 19},
-            {region: "utc", val: 0}
+            {region: 'United States', val: 19},
+            {region: 'Russia', val: 3},
+            {region: 'Standart Time', val: 0}
         ].map(t => {
           return (<button
           key={t.region}
           onClick={() => {
-            this.setState({region: t.region, timezone: t.val}, _ => console.log(this.state.timezone));
+            this.state.timezone = t.val;
+            this.state.region = t.region;
             this.updateChart(this.props, this.state);
+            // this.updateChart(this.props, this.state);
           }
         }
             
