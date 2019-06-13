@@ -185,7 +185,7 @@ class RadialChart extends React.Component {
         {[
             {region: 'United States', val: 3},
             {region: 'Russia', val: 19},
-            {region: 'Standart Time', val: 0}
+            {region: 'Standard Time', val: 0}
         ].map(t => {
           return (<button
           key={t.region}
